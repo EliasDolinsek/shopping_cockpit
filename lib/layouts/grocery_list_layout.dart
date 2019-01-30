@@ -24,8 +24,12 @@ class _GroceryListLayoutState extends State<GroceryListLayout> {
           ),
       itemCount: widget.database.grocerysLists.length,
       itemBuilder: (BuildContext context, int index) {
-        return GroceryItemUI(widget.database.grocerysLists.elementAt(index));
+        return GroceryItemUI(widget.database.grocerysLists.elementAt(index), (){
+          setState(() {
+            widget.database.grocerysLists.removeAt(index);
+          });
+        });
       },
     );
-  }
+}
 }
