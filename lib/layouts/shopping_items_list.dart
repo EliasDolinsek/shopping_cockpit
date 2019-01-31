@@ -17,16 +17,20 @@ class ShoppingItemsList extends StatefulWidget {
 class _ShoppingItemsListState extends State<ShoppingItemsList> {
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return ListView.builder(
       shrinkWrap: true,
       itemCount: widget.groceryList.shoppingItems.length,
       itemBuilder: (BuildContext context, int index) {
-        return ShoppingItemUi(widget.groceryList.shoppingItems.elementAt(index));
+        return Padding(
+          padding: EdgeInsets.only(bottom: 16),
+          child: ShoppingItemUi(
+              widget.groceryList.shoppingItems.elementAt(index), () {
+            setState(() {
+              widget.groceryList.shoppingItems.removeAt(index);
+            });
+          }),
+        );
       },
-      separatorBuilder: (BuildContext context, int index) => Padding(
-            padding: EdgeInsets.only(left: 8, right: 8),
-            child: Divider(),
-          ),
     );
   }
 }

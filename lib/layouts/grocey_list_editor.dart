@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 
 import '../core/grocery_list.dart';
+import '../core/shopping_item.dart';
+
 import '../layouts/shopping_items_list.dart';
 
-class GroceyListEditor extends StatelessWidget {
+class GroceyListEditor extends StatefulWidget {
   final GroceryList groceyList;
 
   GroceyListEditor(this.groceyList);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _GroceryListEditorState();
+  }
+}
+
+class _GroceryListEditorState extends State<GroceyListEditor>{
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +28,10 @@ class GroceyListEditor extends StatelessWidget {
               child: TextField(
                 controller: TextEditingController.fromValue(
                   TextEditingValue(
-                    text: groceyList.name,
+                    text: widget.groceyList.name,
                     selection: TextSelection(
-                        baseOffset: groceyList.name.length,
-                        extentOffset: groceyList.name.length),
+                        baseOffset: widget.groceyList.name.length,
+                        extentOffset: widget.groceyList.name.length),
                   ),
                 ),
                 decoration: InputDecoration(
@@ -30,16 +40,16 @@ class GroceyListEditor extends StatelessWidget {
                 ),
                 onChanged: (String name) {
                   if (name.trim().isEmpty) {
-                    groceyList.name = "unknown";
+                    widget.groceyList.name = "unknown";
                   } else {
-                    groceyList.name = name;
+                    widget.groceyList.name = name;
                   }
                 },
               ),
             )),
         Padding(
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: ShoppingItemsList(groceyList),
+          padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+          child: ShoppingItemsList(widget.groceyList),
         ),
         RaisedButton(
           color: Theme.of(context).primaryColor,
@@ -47,7 +57,11 @@ class GroceyListEditor extends StatelessWidget {
             "Add shopping item",
             style: TextStyle(color: Colors.white),
           ),
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              widget.groceyList.shoppingItems.add(ShoppingItem());
+            });
+          },
         )
       ],
     );
